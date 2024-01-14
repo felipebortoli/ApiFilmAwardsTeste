@@ -12,9 +12,9 @@ da categoria Pior Filme do Golden Raspberry Awards.
 
 ## Como Executar
 
-- Clonar repositório git:
+- Clonar repositório git: 
 ```
-git clone 
+git clone https://github.com/felipebortoli/ApiFilmAwardsTeste
 ```
 - Construir o projeto:
 ```
