@@ -6,10 +6,13 @@ import com.teste.apiTeste.infra.dto.response.ReportFilmAwardInfoResponse;
 import com.teste.apiTeste.infra.dto.response.ReportFilmAwardResponse;
 
 
+import com.teste.apiTeste.infra.persistence.FilmAwardsEntity;
 import com.teste.apiTeste.infra.persistence.ProducerEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ReportFilmAwardsRepositoryGateway implements ReportFilmsAwardsGateway {
 
@@ -38,23 +41,29 @@ public class ReportFilmAwardsRepositoryGateway implements ReportFilmsAwardsGatew
     private List<IntervalYearWinnerAwards> calculateIntervals(List<ProducerEntity> producerEntities) {
         return producerEntities.stream()
                 .filter(producerEntity -> producerEntity.getFilmsAwards().size() > 1)
-                .map(this::calculateInterval)
+                .flatMap(this::calculateIntervalsForProducer)
                 .collect(Collectors.toList());
     }
 
-    private IntervalYearWinnerAwards calculateInterval(ProducerEntity producerEntity) {
+    private Stream<IntervalYearWinnerAwards> calculateIntervalsForProducer(ProducerEntity producerEntity) {
         List<Integer> years = producerEntity.getFilmsAwards().stream()
-                .map(film -> film.getYear())
+                .map(FilmAwardsEntity::getYear)
                 .sorted()
                 .collect(Collectors.toList());
 
-        IntervalYearWinnerAwards intervalYearWinnerAwards = new IntervalYearWinnerAwards();
-        intervalYearWinnerAwards.setName(producerEntity.getName());
-        intervalYearWinnerAwards.setFirstYear(years.get(0));
-        intervalYearWinnerAwards.setLastYear(years.get(years.size() - 1));
-        intervalYearWinnerAwards.setIntervalYearsHighestValue();
+        return IntStream.range(0, years.size() - 1)
+                .mapToObj(i -> {
+                    int currentYear = years.get(i);
+                    int nextYear = years.get(i + 1);
 
-        return intervalYearWinnerAwards;
+                    IntervalYearWinnerAwards intervalYearWinnerAwards = new IntervalYearWinnerAwards();
+                    intervalYearWinnerAwards.setName(producerEntity.getName());
+                    intervalYearWinnerAwards.setFirstYear(currentYear);
+                    intervalYearWinnerAwards.setLastYear(nextYear);
+                    intervalYearWinnerAwards.setIntervalYearsHighestValue();
+
+                    return intervalYearWinnerAwards;
+                });
     }
 
     private List<ReportFilmAwardInfoResponse> createReportList(Map<Integer, List<IntervalYearWinnerAwards>> mapCompareYear, Comparator<Integer> comparator) {
