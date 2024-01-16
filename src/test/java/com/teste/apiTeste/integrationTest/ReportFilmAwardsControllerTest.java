@@ -55,7 +55,7 @@ class ReportFilmAwardsControllerTest {
 
         assertEquals(1,reportResponse.getMax().size());
         assertEquals(1,reportResponse.getMin().size());
-        assertEquals(1,Integer.parseInt(reportResponse.getMin().get(0).interval()));
-        assertEquals(13,Integer.parseInt(reportResponse.getMax().get(0).interval()));
+        assertEquals(1,reportResponse.getMin().get(0).interval());
+        assertEquals(13,reportResponse.getMax().get(0).interval());
     }
 }
