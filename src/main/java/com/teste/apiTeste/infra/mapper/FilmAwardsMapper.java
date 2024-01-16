@@ -25,10 +25,6 @@ public class FilmAwardsMapper {
         return filmAwardsEntity;
     }
 
-    public FilmAwards toDomainObj(FilmAwardsEntity entity){
-        return null;
-    }
-
     public List<FilmAwardsResponse> toResponseList(List<FilmAwardsEntity> entities){
         List<FilmAwardsResponse> returnList = new ArrayList<>();
         for (FilmAwardsEntity entity: entities){

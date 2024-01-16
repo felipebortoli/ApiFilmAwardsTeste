@@ -2,6 +2,7 @@ package com.teste.apiTeste.integrationTest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.teste.apiTeste.infra.Utils.JSON;
 import com.teste.apiTeste.infra.dto.request.FilmAwardsRequest;
 import com.teste.apiTeste.infra.dto.response.FilmAwardsResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,8 +37,6 @@ public class FilmAwardsControllerTest {
     private WebApplicationContext webApplicationContext;
 
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     @BeforeEach
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
@@ -50,8 +49,8 @@ public class FilmAwardsControllerTest {
 
         String response = result.getResponse().getContentAsString();
 
-        JsonNode responseBody = this.objectMapper.readTree(response);
-        List<FilmAwardsResponse> listFilms = this.objectMapper.readValue(responseBody.get("body").toString(), List.class);
+        JsonNode responseBody = JSON.getMapper().readTree(response);
+        List<FilmAwardsResponse> listFilms = JSON.getMapper().readValue(responseBody.get("body").toString(), List.class);
 
         assertEquals(206,listFilms.size());
     }
@@ -68,7 +67,7 @@ public class FilmAwardsControllerTest {
         FilmAwardsRequest request = new FilmAwardsRequest("teste 1",2024, new ArrayList<>(), new ArrayList<>(),true);
          mockMvc.perform(MockMvcRequestBuilders.post("/api/filmaward/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(JSON.getMapper().writeValueAsString(request)))
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
     }
 
@@ -78,7 +77,7 @@ public class FilmAwardsControllerTest {
         FilmAwardsRequest request = new FilmAwardsRequest("teste 1",2024, new ArrayList<>(), new ArrayList<>(),true);
         mockMvc.perform(MockMvcRequestBuilders.put("/api/filmaward/update/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(JSON.getMapper().writeValueAsString(request)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 

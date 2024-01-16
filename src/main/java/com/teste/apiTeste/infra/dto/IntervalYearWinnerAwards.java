@@ -1,9 +1,6 @@
 package com.teste.apiTeste.infra.dto;
 
-import com.teste.apiTeste.infra.persistence.FilmAwardsEntity;
 import lombok.Data;
-
-import java.util.Comparator;
 
 
 @Data

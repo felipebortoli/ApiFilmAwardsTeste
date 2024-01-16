@@ -3,6 +3,7 @@ package com.teste.apiTeste.integrationTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.teste.apiTeste.infra.Utils.JSON;
 import com.teste.apiTeste.infra.dto.response.ReportFilmAwardResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,8 +37,6 @@ class ReportFilmAwardsControllerTest {
     private WebApplicationContext webApplicationContext;
 
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     @BeforeEach
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
@@ -51,8 +50,8 @@ class ReportFilmAwardsControllerTest {
                 .andExpect(jsonPath("$.status").value("ok")).andReturn();
         String response = result.getResponse().getContentAsString();
 
-        JsonNode responseBody = this.objectMapper.readTree(response);
-        ReportFilmAwardResponse reportResponse = this.objectMapper.readValue(responseBody.get("body").toString(), ReportFilmAwardResponse.class);
+        JsonNode responseBody = JSON.getMapper().readTree(response);
+        ReportFilmAwardResponse reportResponse = JSON.getMapper().readValue(responseBody.get("body").toString(), ReportFilmAwardResponse.class);
 
         assertEquals(1,reportResponse.getMax().size());
         assertEquals(1,reportResponse.getMin().size());

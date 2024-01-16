@@ -16,8 +16,6 @@ public class ReportFilmAwardsController {
     public ReportFilmAwardsController(ReportFilmsAwardsInteractor reportFilmsAwardsInteractor) {
         this.reportFilmsAwardsInteractor = reportFilmsAwardsInteractor;
     }
-
-
     @GetMapping("/list")
     public JsonNode listfilmsAwardsWinners() {
         try {

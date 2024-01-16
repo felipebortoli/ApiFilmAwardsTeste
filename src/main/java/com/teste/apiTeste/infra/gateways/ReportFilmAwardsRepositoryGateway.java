@@ -63,9 +63,9 @@ public class ReportFilmAwardsRepositoryGateway implements ReportFilmsAwardsGatew
                 .map(entry -> entry.getValue().stream()
                         .map(info -> new ReportFilmAwardInfoResponse(
                                 info.getName(),
-                                String.valueOf(info.getInterval()),
-                                String.valueOf(info.getFirstYear()),
-                                String.valueOf(info.getLastYear())))
+                                info.getInterval(),
+                                info.getFirstYear(),
+                                info.getLastYear()))
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }

@@ -48,89 +48,12 @@ public class JSON {
         }
     }
 
-    public static JsonNode readTree(String data) throws Exception {
-        try {
-            return mapper.readTree(data);
-        } catch (IOException e) {
-            throw new Exception("Failed to parse: " + data, e);
-        }
-    }
-
-    public static JsonNode readTree(File file) throws Exception {
-        try {
-            return mapper.readTree(file);
-        } catch (IOException e) {
-            throw new Exception("Failed to parse data from file: " + file.getAbsolutePath(), e);
-        }
-    }
-
-    public static <T> T fromJson(String json, Class<T> clazz) throws Exception {
-        try {
-            return mapper.readValue(json, clazz);
-        } catch (Exception e) {
-            throw new Exception("Conversion from Object to JSON failed: " + json, e);
-        }
-    }
-
-
-    public static String toJson(Object value) throws Exception {
-        try {
-            return mapper.writeValueAsString(value);
-        } catch (Exception e) {
-            throw new Exception("Conversion from Object to JSON failed", e);
-        }
-    }
-
     public static JsonNodeFactory getNodeFactory() {
         return nodeFactory;
     }
 
-    public static <T> T treeToObject(JsonNode tree, Class<T> clazz) throws Exception {
-        try {
-            return mapper.treeToValue(tree, clazz);
-        } catch (IOException e) {
-            throw new Exception("Failed to convert JSON to Object", e);
-        }
-    }
-
     public static ObjectMapper getMapper() {
         return mapper;
-    }
-
-    public static <T> T fromJson(byte[] bytea, Class<T> klass) throws Exception {
-        try {
-            return mapper.readValue(bytea, klass);
-        } catch (IOException e) {
-            throw new Exception(e);
-        }
-    }
-
-    public static byte[] toJSONBytes(Object config) throws Exception {
-        try {
-            return mapper.writeValueAsBytes(config);
-        } catch (JsonProcessingException e) {
-            throw new Exception(e);
-        }
-    }
-
-    public static String toJsonSnake(Object value) throws Exception {
-        try {
-            return snakeMapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            throw new Exception(e);
-        }
-    }
-
-    public static <T> T fromJson(File file, Class<T> clazz) throws Exception {
-        try {
-            return mapper.readValue(file, clazz);
-        } catch (IOException e) {
-            throw new Exception(e);
-        }
-    }
-
-    public static Map<String, Object> toMap(Object object) {
-        return mapper.convertValue(object, Map.class);
     }
 }
 
